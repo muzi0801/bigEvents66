@@ -132,42 +132,32 @@
     </script>
 
     <script src="./js/bootstrap/js/bootstrap.min.js"></script>
-    <script>
-        $(function () {
-            //给a注册单击事件,取消a的默认跳转
-            $('#btn_logout').on('click', function (e) {
-                e.preventDefault();
-                //发送ajax请求
-                $.ajax({
-                    type: 'post',
-                    url: 'https://autumnfish.cn/big/admin/logout',
-                    success: function (backData) {
-                        //console.log(backData);
-                        //判断backData.code是否为200
-                        if (backData.code == 200) {
-                            //登出成功,就跳转到登录页面
-                            window.location.href = './login.html';
-                        } else {
-                            //调用bs的js方法,弹出模态框
-                            $('#myModal').modal({
-                                keyboard:true
-                            })
-                        }
-                    }
-                });
-            });
+    
+  <script>
+  $(function(){
+    //   给a注册单击事件,取消a的默认跳转
+      $('#btn_logout').on('click',function(e){
+        e.preventDefault();
 
-
-
-            /*
-            步骤:
-            1.给退出的a标签设置一个单击事件.
-                 注意:取消a标签的默认跳转
-            2.发送ajax请求,请求数据接口返回数据
-                如果成功就跳转到登录页login.html
-            */
-        });
-    </script>
+        $.ajax({
+            type:'post',
+            url:' https://autumnfish.cn/big/admin/logout',
+            success:function(backData){
+                if(backData.code == 200){
+                    window.location.href = "./login.html";
+                }else{
+                    $('#myModal').modal({
+                        keyboard:true
+                    })
+                }
+            }
+        })
+      })
+  })
+  
+  
+  
+  </script>
 
 </body>
 
