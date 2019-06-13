@@ -18,7 +18,7 @@
         <a href="#" class="logo"><img src="images/logo02.png" alt="logo"></a>
         <div class="user_info">
             <img src="images/2.jpg" alt="person">
-            <span>欢迎&nbsp;&nbsp;李思思</span>
+            <span>欢迎&nbsp;&nbsp;<i>李思思</i> </span>
             <b>管理员</b>
         </div>
         <div class="menu">
@@ -109,7 +109,10 @@
         function resizeFrame() {
             var frame_w = $('#main_body').outerWidth();
             var frame_h = $('#main_body').outerHeight();
-            $('#main_frame').css({ 'width': frame_w, 'height': frame_h });
+            $('#main_frame').css({
+                'width': frame_w,
+                'height': frame_h
+            });
         }
 
         resizeFrame();
@@ -128,36 +131,59 @@
                 $('.level02').children().eq(n).addClass('active').siblings().removeClass('active');
             }
         }
-
     </script>
-
-    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
     
-  <script>
-  $(function(){
-    //   给a注册单击事件,取消a的默认跳转
-      $('#btn_logout').on('click',function(e){
-        e.preventDefault();
 
-        $.ajax({
-            type:'post',
-            url:' https://autumnfish.cn/big/admin/logout',
-            success:function(backData){
-                if(backData.code == 200){
-                    window.location.href = "./login.html";
-                }else{
-                    $('#myModal').modal({
-                        keyboard:true
-                    })
+    <!-- 大事件第一天 -->
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
+
+    <script>
+        $(function () {
+            //   给a注册单击事件,取消a的默认跳转
+            $('#btn_logout').on('click', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type: 'post',
+                    url: ' https://autumnfish.cn/big/admin/logout',
+                    success: function (backData) {
+                        if (backData.code == 200) {
+                            window.location.href = "./login.html";
+                        } else {
+                            $('#myModal').modal({
+                                keyboard: true
+                            })
+                        }
+                    }
+                });
+            });
+
+
+
+            // 大事件第二天
+
+            $.ajax({
+                type: 'get',
+                url: 'http://localhost:8000/admin/getuser',
+                success: function (backData) {
+                    console.log(backData);
+                    // 渲染左边
+                    $('.user_info>span>i').text(backData.data.nickname);
+                    $('.user_info>img').attr('src',backData.data.user_pic);
+
+                    // 渲染右边
+                    $('.user_center_link>img').attr('src',backData.data.user_pic);
                 }
-            }
-        })
-      })
-  })
-  
-  
-  
-  </script>
+            })
+                      /*
+                      获取用户信息
+                      步骤:
+                          1. 进入到首页之后
+                          2. 通过用户信息接口获取用户的数据
+                          3. 渲染到页面上
+                      */
+        });
+    </script>
 
 </body>
 
