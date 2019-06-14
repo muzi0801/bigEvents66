@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +9,8 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
-    <script src="js/jquery-1.12.4.min.js"></script>
-
+    <script src="./js/jquery-1.12.4.min.js"></script>
 </head>
-
 <body>
     <div class="container-fluid">
         <div class="common_title">
@@ -24,37 +21,40 @@
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">用户名称：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="李思思">
+                        <input type="text" name="username" class="form-control username"  value="李思思">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">昵称：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="思思">
+                        <input type="text" name="nickname" class="form-control  nickname" value="思思">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">邮箱：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputEmail3" value="lisisi@126.com">
+                        <input type="text" name="email" class="form-control email"  value="lisisi@126.com">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">用户图标：</label>
                     <div class="col-sm-10">
-                        <img src="images/2.jpg" alt="" class="user_pic">
-                        <input type="file" id="exampleInputFile">
+                        <img src="images/2.jpg" alt="" class="user_pic"><br>
+                        <!-- lable的for属性,放一个input的id,那点及这个lable就相当于点击;额这个input -->
+                        <label for="exampleInputFile">
+                            <img src="./images.1/uploadFileIcon.png" alt="">
+                        </label>
+                        <input type="file" style="opacity: 0;" name="user_pic" id="exampleInputFile">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">密码：</label>
                     <div class="col-sm-4">
-                        <input type="password" class="form-control" id="inputEmail3" value="12345678">
+                        <input type="password" name="password" class="form-control password"  value="12345678">
                     </div>
                 </div>
-
 
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
@@ -71,7 +71,7 @@
                 type: 'get',
                 url: 'http://localhost:8000/admin/userinfo_get',
                 success: function (backData) {
-                    //console.log(backData);
+                    console.log(backData);
                     //把数据渲染到对应的input标签中或者img标签中.
                     // $('input.username').val(backData.data.username);
                     // $('input.nickname').val(backData.data.nickname);
@@ -79,7 +79,10 @@
                     // $('input.password').val(backData.data.password);
 
                     for (var key in backData.data) {
+
+                        // console.log( $('input.'+key));
                         $('input.' + key).val(backData.data[key]);
+                        
                     }
                     $('img.user_pic').attr('src', backData.data.user_pic);
                 }
@@ -93,7 +96,7 @@
               */
 
             //图片预览
-            $('#exampleInputFile').on('click', function () {
+            $('#exampleInputFile').on('change', function () {
                 // 1.获取你选中的文件
                 var icon = this.files[0]; //files是dom的属性,只能用用dom对象点出来
                 // 2,生成一个url
@@ -108,12 +111,14 @@
                 e.preventDefault();
 
                 // 新建一个formData对象
-                var formData = new FormData($('.article_form')[0]);
+                var formData = new FormData($('.article_form')[0])
                 // 发送Ajax
                 $.ajax({
                     type: 'post',
-                    url: 'http://localhost:8000/admin/userinfo_get',
+                    url: 'http://localhost:8000/admin/userinfo_edit',
                     data: formData,
+                    contentType:false,
+                    processData:false,
                     success: function (backData) {
                         console.log(backData);
 
@@ -125,6 +130,71 @@
             //$("#objid", parent.document); 这样写 获取到的是parent.document 里面的 id为objid的元素
 
         });
+
+
+        // $(function () {
+        //     $.ajax({
+        //         type: 'get',
+        //         url: 'http://localhost:8000/admin/userinfo_get',
+        //         success: function (backData) {
+        //             //console.log(backData);
+        //             //把数据渲染到对应的input标签中或者img标签中.
+        //             // $('input.username').val(backData.data.username);
+        //             // $('input.nickname').val(backData.data.nickname);
+        //             // $('input.email').val(backData.data.email);
+        //             // $('input.password').val(backData.data.password);
+
+        //             for (var key in backData.data) {
+        //                 $('input.' + key).val(backData.data[key]);
+        //             }
+
+        //             $('img.user_pic').attr('src', backData.data.user_pic);
+        //         }
+        //     });
+
+        //     /*
+        //     获取基础数据
+        //     步骤
+        //     1. 进入个人中心之后
+        //     2. 调用获取用户详细信息接口
+        //     3. 数据获取到之后 渲染到 页面上
+        //     */
+
+
+        //     //图片预览
+        //     $('#exampleInputFile').on('change', function () {
+        //         //1.获取你选中的文件.
+        //         var icon = this.files[0]; //files是一个dom的属性,只能用dom对象点出来.
+        //         //2.生成一个url
+        //         var url = URL.createObjectURL(icon);
+        //         //3.把这个url交给预览的img
+        //         $('.user_pic').attr('src',url);
+        //     });
+
+
+        //     //点击修改按钮,修改管理员的个人信息. 注意阻止submit的默认跳转
+        //     $('.btn-success').on('click', function (e) {
+        //         e.preventDefault();
+
+        //         //新建一个formData对象
+        //         var formData = new FormData($('.article_form')[0]);
+        //         //发送ajax
+        //         $.ajax({
+        //             type: 'post',
+        //             url: 'http://localhost:8000/admin/userinfo_edit',
+        //             data: formData,
+        //             contentType: false,
+        //             processData: false,
+        //             success: function (backData) {
+        //                 console.log(backData);
+        //             }
+        //         });
+        //     });
+
+        //     //注意:
+        //     //$("#objid"); 如果这样写获取到的是document页面中的id为objid的元素
+        //     //$("#objid", parent.document); 这样写 获取到的是parent.document 里面的 id为objid的元素
+        // });
     </script>
 </body>
 
