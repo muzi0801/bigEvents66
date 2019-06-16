@@ -221,17 +221,18 @@
         <p>电话：0755-****888    粤ICP备*******8号</p>
     </div>
 
-    <script src="../web_back/js/template-web.js"></script>
-    <!-- 首页模板 -->
+    <script src="./js/template-web.js"></script>
+    <!-- 首页文章 模板 -->
     <script id="tmp_indexArticle" type="text/html">
-        {{each datav}}
+        {{each data v}}
         {{if $index == 0}}
         <li class="first">
             {{else}}
-        </li>
+        <li>
         {{/if}}
-        <a href="./article.html?id={{v.id}}"><img src="{{v.cover}}" alt=""></a>
-        <p>{{v.title}}</p>
+             <a href="./article.html?id={{v.id}}"><img src="{{v.cover}}" alt=""></a>
+             <p>{{v.title}}</p>
+         </li>
         {{/each}}
     </script>
 
@@ -250,7 +251,7 @@
             success:function(backData){
                 console.log(backData);
                 if(backData.code == 200){
-                    var resHtml = tmplate('tmp_indexArticle',backData);
+                    var resHtml = template('tmp_indexArticle',backData);
                     $('.focus_list').html(resHtml);
                 }
                 
